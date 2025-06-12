@@ -25,7 +25,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
   TerraformInit:
-    name: 'Terraform'
     runs-on: ubuntu-latest
     needs: LogInToAWS
 
