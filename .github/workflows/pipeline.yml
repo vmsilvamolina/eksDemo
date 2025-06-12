@@ -21,11 +21,9 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-  TerraformInit:
+  Terraform:
     runs-on: ubuntu-latest
     needs: LogInToAWS
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
@@ -37,21 +35,7 @@ jobs:
       uses: hashicorp/setup-terraform@v3
     - name: Terraform Init
       run: terraform init
-
-  TerraformPlan:
-    runs-on: ubuntu-latest
-    needs: TerraformInit
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
     - name: Terraform Plan
       run: terraform plan -input=false
-
-  TerraformApply:
-    runs-on: ubuntu-latest
-    needs: TerraformPlan
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Apply Terraform configuration
-        run: terraform apply -auto-approve
+    - name: Apply Terraform configuration
+      run: terraform apply -auto-approve
